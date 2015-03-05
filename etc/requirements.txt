@@ -15,8 +15,7 @@ patsy==0.3.0
 statsmodels==0.6.1
 
 # Don't use 2.4.0.
-# https://github.com/dateutil/dateutil/issues/34
-python-dateutil==2.3
+python-dateutil==2.4.1
 six==1.9.0
 
 # For fetching remote data
@@ -27,6 +26,5 @@ Cython==0.22
 # faster OrderedDict
 cyordereddict==0.2.2
 
-# faster array ops. Note once numpy gets to 1.9.1 we
-# we can bump to 1.0.0
-bottleneck==0.8.0
+# faster array ops.
+bottleneck==1.0.0
