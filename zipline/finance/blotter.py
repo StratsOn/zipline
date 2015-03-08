@@ -33,7 +33,6 @@ from zipline.finance.slippage import (
 from zipline.finance.commission import PerShare
 from zipline.utils.protocol_utils import Enum
 
-from zipline.utils.protocol_utils import Enum
 from zipline.utils.serialization_utils import (
     VERSION_LABEL
 )
