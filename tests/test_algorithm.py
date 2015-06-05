@@ -25,7 +25,8 @@ import pandas as pd
 
 from zipline.utils.test_utils import (
     nullctx,
-    setup_logger
+    setup_logger,
+    teardown_logger
 )
 import zipline.utils.factory as factory
 import zipline.utils.simfactory as simfactory
@@ -134,10 +135,12 @@ class TestMiscellaneousAPI(TestCase):
         )
         self.source = factory.create_minutely_trade_source(
             sids,
-            trade_count=100,
             sim_params=self.sim_params,
             concurrent=True,
         )
+
+    def tearDown(self):
+        teardown_logger(self)
 
     def test_get_environment(self):
         expected_env = {
@@ -306,6 +309,9 @@ class TestTransformAlgorithm(TestCase):
         self.panel_source, self.panel = \
             factory.create_test_panel_source(self.sim_params)
 
+    def tearDown(self):
+        teardown_logger(self)
+
     def test_source_as_input(self):
         algo = TestRegisterTransformAlgorithm(
             sim_params=self.sim_params,
@@ -331,7 +337,7 @@ class TestTransformAlgorithm(TestCase):
             sim_params=sim_params,
             sids=[0, 1, 133]
         )
-        algo.run([self.source, self.df_source])
+        algo.run([self.source, self.df_source], overwrite_sim_params=False)
         self.assertEqual(len(algo.sources), 2)
 
     def test_df_as_input(self):
@@ -427,7 +433,6 @@ class TestPositions(TestCase):
     def setUp(self):
         setup_logger(self)
         self.sim_params = factory.create_simulation_parameters(num_days=4)
-        setup_logger(self)
 
         trade_history = factory.create_trade_history(
             1,
@@ -440,6 +445,9 @@ class TestPositions(TestCase):
 
         self.df_source, self.df = \
             factory.create_test_df_source(self.sim_params)
+
+    def tearDown(self):
+        teardown_logger(self)
 
     def test_empty_portfolio(self):
         algo = EmptyPositionsAlgorithm(sim_params=self.sim_params)
@@ -487,6 +495,9 @@ class TestAlgoScript(TestCase):
         self.zipline_test_config = {
             'sid': 0,
         }
+
+    def tearDown(self):
+        teardown_logger(self)
 
     def test_noop(self):
         algo = TradingAlgorithm(initialize=initialize_noop,
