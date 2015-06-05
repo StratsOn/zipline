@@ -12,7 +12,7 @@ if __name__ == "__main__":
     sessionid = os.environ['SESSION_ID'].strip('\n')
     print "%s:9092" % os.environ['DOCKER_HOST'].strip('\n')
     client = KafkaClient("%s:9092" % os.environ['DOCKER_HOST'].strip('\n'))
-    producer = SimpleProducer(client, async=True)
+    producer = SimpleProducer(client, async=False, req_acks=SimpleProducer.ACK_AFTER_LOCAL_WRITE, ack_timeout=2000)
 
     #producer.send_messages("plot", "some message")
 
